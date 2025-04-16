@@ -30,12 +30,12 @@ CLOUDMRCMR=https://ewjjq013u0.execute-api.us-east-1.amazonaws.com/
 
 
 # Create a bucket
-BUCKET_NAME=mromainbucket$_NN_
+BUCKET_NAME=mromainbucket-ag$_NN_
 REGION=us-east-1
-COMMONSTACKNAME=MROCommon$_NN_
-BACKSTACKNAME=MROBackstack$_NN_
-FRONTSTACKNAME=MROFrontstack$_NN_
-USAGEPLANSTACKNAME=USAGEPLAN$_NN_
+COMMONSTACKNAME=MROCommon-ag$_NN_
+BACKSTACKNAME=MROBackstack-ag$_NN_
+FRONTSTACKNAME=MROFrontstack-ag$_NN_
+USAGEPLANSTACKNAME=USAGEPLAN-ag$_NN_
 
 
 
@@ -80,7 +80,7 @@ echo "common resources deployed"
 # check if API_ID exists
 API_ID=$(aws cloudformation describe-stacks --stack-name $BACKSTACKNAME --query "Stacks[0].Outputs[?OutputKey=='ApiId'].OutputValue" --output text)
 
-if if [ -z "$API_ID" ] || [ "$FORCEBAKEND" -eq 1 ]; then
+if [ -z "$API_ID" ] || [ "$FORCEBAKEND" -eq 1 ]; then
     echo "Building backend resources"
     sam build -t backend/template.yaml --use-container --build-dir build/back 
     # sam package --template-file build/back/template.yaml --s3-bucket $BUCKET_NAME --output-template-file build/back/packaged-template.yaml
@@ -207,4 +207,3 @@ BRANCH_NAME="stable"
 aws amplify start-job --app-id $APP_ID --branch-name $BRANCH_NAME --job-type RELEASE
 echo "Waiting for job to be created"
 echo "Job completed"
-
